@@ -9,7 +9,7 @@ class BoxWidget extends StatefulWidget {
   State<BoxWidget> createState() => _BoxWidgetState();
 }
 
-class _BoxWidgetState extends State<BoxWidget> {
+class _BoxWidgetState extends State<BoxWidget> with ChangeNotifier {
   String value = '';
 
   void _pressed(int index) {
@@ -28,6 +28,11 @@ class _BoxWidgetState extends State<BoxWidget> {
     _checkWinner();
   }
 
+  void _clearBoard() {
+    globals.notify.value = false;
+    notifyListeners();
+  }
+
   void _showWinDialog(String winner) {
     showDialog(
         barrierDismissible: false,
@@ -39,6 +44,7 @@ class _BoxWidgetState extends State<BoxWidget> {
               ElevatedButton(
                 child: const Text("Play Again"),
                 onPressed: () {
+                  _clearBoard();
                   Navigator.of(context).pop();
                 },
               )
@@ -58,6 +64,7 @@ class _BoxWidgetState extends State<BoxWidget> {
               ElevatedButton(
                 child: const Text("Play Again"),
                 onPressed: () {
+                  _clearBoard();
                   Navigator.of(context).pop();
                 },
               )

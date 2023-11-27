@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/box.dart';
+import 'globals.dart' as globals;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -9,6 +10,17 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
+  void initState() {
+    globals.notify.addListener(() {
+      setState(() {
+        globals.notify.value = true;
+        globals.displayElement = ['', '', '', '', '', '', '', '', ''];
+        globals.filledBoxes = 0;
+      });
+    });
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
