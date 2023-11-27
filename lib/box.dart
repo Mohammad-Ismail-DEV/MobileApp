@@ -1,37 +1,40 @@
 import 'package:flutter/material.dart';
+import 'globals.dart' as globals;
 
 class BoxWidget extends StatefulWidget {
-  final String text;
-  const BoxWidget(this.text);
+  const BoxWidget(this.index, {super.key});
 
+  final int index;
   @override
-  State<BoxWidget> createState() => _BoxWidgetState('');
+  State<BoxWidget> createState() => _BoxWidgetState();
 }
 
 class _BoxWidgetState extends State<BoxWidget> {
-  String text;
-  bool pressed = false;
-  _BoxWidgetState(this.text);
-
   String value = '';
-  List<String> values = ['X', 'O'];
-  int count = 0;
-  void toggleDraw() {
+
+  void _pressed(int index) {
     setState(() {
-      if (pressed == false) {
-        text = values[0];
-        pressed = true;
+      if (globals.xTurn && globals.displayElement[index] == '') {
+        globals.displayElement[index] = 'X';
+        globals.filledBoxes++;
+        globals.xTurn = !globals.xTurn;
+      } else if (!globals.xTurn && globals.displayElement[index] == '') {
+        globals.displayElement[index] = 'O';
+        globals.filledBoxes++;
+        globals.xTurn = !globals.xTurn;
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder(
-      child: ElevatedButton(
-          onPressed: toggleDraw,
-          child: SizedBox(
-              height: 300, width: 300, child: Center(child: Text(text)))),
-    );
+    return InkWell(
+        onTap: () => _pressed(widget.index),
+        child: Center(
+          child: Text(
+            globals.displayElement[widget.index],
+            style: const TextStyle(color: Colors.blue, fontSize: 200),
+          ),
+        ));
   }
 }
